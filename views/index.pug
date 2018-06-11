@@ -1,0 +1,29 @@
+extends layout
+
+block content
+  block content
+
+  .container
+    form(method='GET' action='/results')
+      <div class="mx-auto col-12 col-lg-6">
+        <h1 class="display-4 mb-4">Tìm chuyến bay</h1>
+        <label class="text-muted font-weight-semibold" for='DepartCity'>Điểm khởi hành:</label>
+        <div class="form-group">
+          <select id="DepartCity" name='DepartCity' class="form-control select2">
+            each city in cities
+                option(value=city.Code) #{city.Name}
+          </select>
+        </div>
+        <label class="text-muted font-weight-semibold" for='ArrivalCity'>Điểm kết thúc:</label>
+        <div class="form-group">
+          <select id="ArrivalCity" name='ArrivalCity' class="form-control select2">
+            each city in cities
+                option(value=city.Code) #{city.Name}
+          </select>
+        </div>
+        <div class="form-group">
+            label.text-muted.font-weight-semibold(for="DepartDate") Ngày đi
+            input#DepartDate(name='DepartDate' required='required')
+        </div>
+        <button class="btn btn-theme mt-4 w-100" type="submit">Tìm kiếm</button>
+      </div>

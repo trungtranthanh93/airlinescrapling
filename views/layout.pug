@@ -1,0 +1,45 @@
+doctype html
+html
+  head
+    title= title
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    link(rel='stylesheet', href='/vendors/bootstrap-4.1.1/css/bootstrap.min.css')
+    link(rel='stylesheet', href='/vendors/font-awesome-4.7.0/css/font-awesome.min.css')
+    link(rel='stylesheet', href='/vendors/animate.css')
+    link(rel='stylesheet', href='/vendors/select2-4.0.6/css/select2.min.css')
+    link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/gijgo/1.9.6/combined/css/gijgo.min.css')
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet', href='https://fonts.googleapis.com/css?family=Roboto:300,300i,400,500&amp;subset=vietnamese')
+    script(src='/vendors/jquery-3.3.1/jquery.min.js')
+    script(src='/vendors/bootstrap-4.1.1/js/bootstrap.bundle.min.js')
+    script(src='/vendors/select2-4.0.6/js/select2.full.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/gijgo/1.9.6/combined/js/gijgo.min.js')
+    script(src='/javascripts/style.js')
+    
+  body
+    .loading
+    block header
+      <header>
+        <nav class="navbar-main navbar navbar-dark bg-primary">
+            <a class="navbar-brand" href="/">!{navigateIcon} #{title}</a>
+            <button class="navbar-toggler d-block ml-auto" type="button" aria-controls="navbarSupportedContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </nav>
+        <nav class="navbar navbar-light bg-white offcanvas-collapse border-primary">
+            <div class="navbar-collapse">
+                <ul class="navbar-nav fa-ul">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/"><i class="fa fa-fw fa-home"></i>Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="javascript: ;"><i class="fa fa-fw fa-cog"></i>Setting</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <div class="menu-overlay"></div>
+      </header>
+    block content
+    block footer
+    block scripts

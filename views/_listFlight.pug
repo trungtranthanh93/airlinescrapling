@@ -1,0 +1,130 @@
+mixin ecoOutOfServices(flight)
+  h4.mb-0.text-secondary.text-uppercase Hết vé
+  <div class="text-secondary">#{flight.EcoSeat}</div>
+mixin businessOutOfServices(flight)
+  h4.mb-0.text-secondary.text-uppercase Hết vé
+  <div class="text-secondary">#{flight.EcoSeat}</div>
+
+mixin ecoPrice(flight)
+  <h6 class="mb-0 color-theme">#{flight.EcoPrice} ₫</h6>
+  if flight.IsEcoIncrease
+    div.mb-0.text-success
+        i.fa.fa-caret-up.fa-fw
+        <span>#{flight.EcoIncreasePercent}%</span> (#{flight.EcoIncreaseAmount} ₫)
+  else
+    div.mb-0.text-danger
+        i.fa.fa-caret-down.fa-fw
+        <span>#{flight.EcoIncreasePercent}%</span> (#{flight.EcoIncreaseAmount} ₫)
+  <div class="text-secondary">#{flight.EcoSeat}</div>
+
+mixin businessPrice(flight)
+  <h6 class="mb-0 color-theme">#{flight.BusinessPrice} ₫</h6>
+  if flight.IsBusinessIncrease
+    div.mb-0.text-success
+        i.fa.fa-caret-up.fa-fw
+        <span>#{flight.BusinessIncreasePercent}%</span> (#{flight.BusinessIncreaseAmount} ₫)
+  else
+    div.mb-0.text-danger
+        i.fa.fa-caret-down.fa-fw
+        <span>#{flight.BusinessIncreasePercent}%</span> (#{flight.BusinessIncreaseAmount} ₫)
+  <div class="text-secondary">#{flight.BusinessSeat}</div>
+
+mixin flightItem(flight)
+  <div class="flight-item p-3 rounded mb-4 box-shadow">
+    <div class="d-flex justify-content-between">
+      <div class="d-flex justify-content-between flex-shrink-1">
+        //- Depart
+        <div class="pr-2 pr-xl-3">
+          <div class="font-weight-semibold">#{flight.DepartHour}</div>
+          <div class="text-secondary">#{flight.DepartCity.Code}</div>
+        </div>
+        //- Arrival
+        <div class="pr-2 pr-xl-3">
+          <div class="font-weight-semibold">#{flight.ArrivalHour}</div>
+          <div class="text-secondary">#{flight.ArrivalCity.Code}</div>
+        </div>
+        //- Airbus
+        <div>
+          <div class="font-weight-semibold"><i class="fa fa-plane"></i> #{flight.Aircraft}</div>
+          <div class="text-secondary">#{flight.FlightDuration}</div>
+        </div>
+      </div>
+      //- Eco
+      <div class="text-right">
+        if (flight.EcoAvailable == false)
+          +ecoOutOfServices(flight)
+        else
+          +ecoPrice(flight)
+      </div>
+      //- Bussines
+      <div class="text-right">
+        if (flight.BusinessAvailable == false)
+          +businessOutOfServices(flight)
+        else
+          +businessPrice(flight)
+      </div>
+    </div>
+    <div>
+      <a class="pt-2 d-inline-block font-weight-semibold" data-toggle="collapse" href="#collapse-#{flight.Id}" role="button" aria-expanded="false" aria-controls="collapse-#{flight.Id}">Chi tiết</a>
+    </div>
+    //- Collapse Content
+    <div class="collapse pt-2" id="collapse-#{flight.Id}">
+      <div class="row">
+        //- Flight Time
+        <div class="col-6 d-flex flex-column">
+          <div class="d-flex">
+            <div>
+              <h6 class="mb-0 font-weight-normal">#{flight.DepartHour}</h6>
+              <small class="text-secondary">#{flight.DepartDate}</small>
+            </div>
+            <div class="ml-3">
+              <h6 class="mb-0 font-weight-normal">#{flight.DepartCity.Name} (#{flight.DepartCity.Code})</h6>
+              <div class="text-secondary">#{flight.DepartAirport}</div>
+            </div>
+          </div>
+          <div class="text-secondary border-left border-primary py-1 my-1 pl-2">
+            <i class="fa fa-clock-o fa-fw color-theme"></i> #{flight.FlightDuration}
+          </div>
+          <div class="d-flex">
+            <div>
+              <h6 class="mb-0 font-weight-normal">#{flight.ArrivalHour}</h6>
+              <small class="text-secondary">#{flight.ArrivalDate}</small>
+            </div>
+            <div class="ml-3">
+              <h6 class="mb-0 font-weight-normal">#{flight.ArrivalCity.Name} (#{flight.ArrivalCity.Code})</h6>
+              <div class="text-secondary">#{flight.ArrivalAirport}</div>
+            </div>
+          </div>
+        </div>
+        //- Flight Details
+        <div class="col-6 d-flex flex-column">
+          <ul>
+            <li><span>Flight number:</span> <span class="text-secondary">#{flight.FlightNumber}</span></li>
+            <li><span>Aircraft:</span> <span class="text-secondary">#{flight.Aircraft}</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+.row
+    <div class="col-12 col-lg-6 border-right">
+        <h2 class="font-weight-light mb-3"><img src="images/carriers/vietjet.png" style="height: 35px" /> </h2>
+        <div class="list-flight">
+        if (vietJetFlights.length > 0)
+          each flight in vietJetFlights
+              +flightItem(flight)
+        else
+          .alert.alert-warning Không lấy được dữ liệu
+        </div>
+    </div>
+    <div class="col-12 col-lg-6">
+        <h2 class="font-weight-light mb-3"><img src="images/carriers/vietnamairline.png" style="height: 35px" /> </h2>
+        <div class="list-flight">
+        if (vietnamAirlineFlights.length > 0)
+          each flight in vietnamAirlineFlights
+              +flightItem(flight)
+        else
+          .alert.alert-warning Không lấy được dữ liệu
+        </div>
+    </div>

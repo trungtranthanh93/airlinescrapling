@@ -1,0 +1,47 @@
+extends layout
+
+block scripts
+ script.
+  $(function(){
+    var data = {
+      DepartCity: getQueryValue('DepartCity'),
+      ArrivalCity: getQueryValue('ArrivalCity'),
+      DepartDate: getQueryValue('DepartDate')
+    };
+    getAjax({
+      element: '#flight-list',
+      type: 'POST',
+      url: '/results',
+      data: JSON.stringify(data)
+    })
+  })
+
+block content
+  block content
+
+  .container
+    form(method='GET' action='/result')
+      <h1 class="h4 font-weight-light">
+        <i class="fa fa-send-o fa-fw color-theme"></i> #{DepartCity.Name} 
+        <i class="fa fa-long-arrow-right"></i> #{ArrivalCity.Name}
+      </h1>
+      <h2 class="h4 font-weight-light"><i class="fa fa-calendar-check-o fa-fw color-theme"></i> #{DepartDate}</h2>
+      //- Near Date
+      <div class="row my-3">
+        each Date in Dates
+          <div class="col">
+            <div class="card">
+              if Date.Active
+                div.card-body.text-white.bg-primary.rounded
+                  <h6 class="card-title text-center">#{Date.Day}</h5>
+                  <h6 class="card-subtitle mb-0 font-weight-light text-center">#{Date.DoW}</h6>
+              else
+                a.card-body.box-shadow.rounded(href=(Date.Url))
+                  <h6 class="card-title text-center">#{Date.Day}</h5>
+                  <h6 class="text-secondary card-subtitle mb-0 font-weight-light text-center">#{Date.DoW}</h6>
+            </div>
+          </div>
+      </div>
+      <hr/>
+      //- Flight List
+      <div id="flight-list"></div>
