@@ -4,25 +4,25 @@ const common = require('../services/textUtility')
 const DatePartern = 'YYYY-MM-DD';
 const moment = require('moment');
 const puppeteer = require('puppeteer');
-module.exports = {
-    crawl: async function (data) {
+const fs = require('fs')
+   async function crawl() {
         var flight_json = [];
         var url = "https://fly.vietnamairlines.com/dx/VNDX/#/flight-selection?";
         url += "journeyType=" + "one-way";
         url += "&locale=" + "vi-VI";
-        url += "&origin=" + data.DepartCity.Code;
-        url += "&destination=" + data.ArrivalCity.Code;
+        url += "&origin=SGN";
+        url += "&destination=HAN" ;
         url += "&ADT=" + '1';
         url += "&CHD=";
         url += "&INF=";
-        url += "&date=" + moment(data.DepartDate, 'YYYY/MM/DD').format('MM-DD-YYYY');
+        url += "&date=07-07-2018";
         //url+="&ReturnDate="+ data.ReturnDate.replace('/','').replace('/','');
 
         const browser = await puppeteer.launch();
         const page = await browser.newPage();
         await page.goto(url);
         await page.waitForSelector('.airline-flight-equipment');
-        let bodyHTML = await page.evaluate(() => document.body.innerHTML);
+        let html = await page.evaluate(() => document.body.innerHTML);
 
         const $ = cheerio.load(html);
                 var nameCity = $(html).find(".dxp-summary-bar-container-airport-code");
@@ -124,8 +124,12 @@ module.exports = {
         //     .catch(error => {
         //         console.error('Search failed:', error)
         //     });
-        return flight_json;
+        fs.writeFile('vn.json', JSON.stringify(flight_json),function(err){
+            if(err) throw err;
+            else console.log('DOne')
+        });
         await browser.close();
 
     }
-}
+    crawl();
+   
